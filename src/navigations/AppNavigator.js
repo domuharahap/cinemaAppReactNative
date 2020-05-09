@@ -1,9 +1,9 @@
-import * as React from 'react';
+import React,{ useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-//import { Ionicons } from '@expo/vector-icons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
+import { isAuthenticated } from '@okta/okta-react-native';
 
 import Home from '../pages/Home';
 import Detail from '../pages/Detail';
@@ -15,6 +15,7 @@ import Movies from '../pages/Movies';
 import Showtimes from '../pages/Showtimes';
 import Bookings from '../pages/Bookings';
 import BookingTickets from '../pages/BookingTickets';
+import Sigin from '../pages/Login.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -37,6 +38,8 @@ function getHeaderTitle(route) {
       return 'Bookings'
     case 'BookingTickets':
       return 'BookingTickets'
+    case 'Sigin':
+      return 'Sigin'
   }
 }
 
@@ -60,7 +63,10 @@ function MainTabNavigator() {
             iconName = 'logo-youtube'
           } else if (route.name == 'Profile') {
             iconName = 'ios-person'
+          }else if (route.name == 'Sigin') {
+            iconName = 'ios-log-in'
           }
+
           return <Ionicons name={iconName} color={color} size={size} />
         }
       })}>
@@ -68,11 +74,27 @@ function MainTabNavigator() {
       <Tab.Screen name='Movies' component={Movies} />
       <Tab.Screen name='Showtimes' component={Showtimes} />
       <Tab.Screen name='Profile' component={Profile} />
+      <Tab.Screen name='Sigin' component={Sigin} />
     </Tab.Navigator>
   )
 }
 
 function MainStackNavigator() {
+  const [progress, setProgress] = useState(false);
+  const [authenticated, setAuthenticated] = useState(false);
+
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      const { authenticated } = await isAuthenticated();
+      console.log(authenticated);
+      setAuthenticated(authenticated);
+      setProgress(false);
+    }
+
+    setProgress(true);
+    checkAuthStatus();
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -121,6 +143,16 @@ function MainStackNavigator() {
           name='Settings'
           component={Settings}
           options={{ title: 'Settings' }}
+        />
+        <Stack.Screen
+          name='Profile'
+          component={Profile}
+          options={{ title: 'Profile' }}
+        />
+        <Stack.Screen
+          name="Sigin"
+          component={Sigin}
+          options={{ title: 'Sigin', headerLeft: null }}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -79,6 +79,10 @@ target 'myapp' do
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'OktaSdkBridgeReactNative', :path => '../node_modules/@okta/okta-react-native'
+
+  pod 'react-native-dynatrace', :path => '../node_modules/@dynatrace/react-native-plugin'
+
   target 'myappTests' do
     inherit! :complete
     # Pods for testing

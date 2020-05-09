@@ -1,21 +1,16 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
 
-const character = {
-  name: 'Luke Skywalker',
-  home: 'Tatooine',
-  species: 'human'
-}
-
 function Home(props) {
   const { navigation } = props
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Home Screen</Text>
+      <Text style={styles.text}>Welcome!</Text>
+      <Text style={styles.text}>Cinemas Home Screen</Text>
       <TouchableOpacity
         style={styles.buttonContainer}
         onPress={() => navigation.navigate('Detail', { item: character })}>
-        <Text style={styles.buttonText}>Who is {character.name}?</Text>
+        <Text style={styles.buttonText}>What is New?</Text>
       </TouchableOpacity>
     </View>
   );
