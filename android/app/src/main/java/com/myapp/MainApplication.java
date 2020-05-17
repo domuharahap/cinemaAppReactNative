@@ -5,6 +5,7 @@ import android.content.Context;
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
 import com.dynatrace.android.agent.DynatraceReactPackage;
+import com.dynatrace.android.agent.DynatraceReactPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.oktareactnative.OktaSdkBridgePackage;

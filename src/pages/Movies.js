@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, FlatList} from 'react-native';
 import { ListItem, SearchBar } from 'react-native-elements';
+import Environment from '../common/Environment';
 
 export default class Movies extends React.Component {
   constructor(props) {
@@ -16,18 +17,14 @@ export default class Movies extends React.Component {
   //TODO: getMovies data
   componentDidMount() {
     //Load movies
-    fetch('http://192.168.56.139:8080/api/movies', {
+    fetch(Environment.backend_enpoint+'movies', {
         method: 'GET', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        },
+        headers: Environment.headers,
         credentials: 'same-origin'
       })
       .then((response) => response.json())
       .then((json) => {
-        //console.log(json.length);
+        console.log(json);
         this.setState({ data: json });
       })
       .catch((error) => console.error(error))

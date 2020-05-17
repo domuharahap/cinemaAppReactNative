@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, Button, ActivityIndicator } from 'react-native';
 import DatePicker from 'react-native-datepicker';
-import moment from 'moment';
 import RNPickerSelect from 'react-native-picker-select';
 import SearchableDropdown from 'react-native-searchable-dropdown';
+import Environment from '../common/Environment';
+import moment from 'moment';
 
 export default class Showtimes extends React.Component {
   constructor(props) {
@@ -34,13 +35,9 @@ export default class Showtimes extends React.Component {
     //Load movies
     let dataitem = [];
     try {
-      let response = await fetch('http://192.168.56.139:8080/api/showtime/search?movieId=&date='+date, {
+      let response = await fetch(Environment.backend_enpoint+'showtime/search?movieId=&date='+date, {
         method: 'POST', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        },
+        headers: Environment.headers,
         credentials: 'same-origin'
       });
       let json = await response.json();
@@ -48,13 +45,9 @@ export default class Showtimes extends React.Component {
       for(let i = 0; i < json.length; i++){
         var id = json[i].id;
         try {
-          let responsev = await fetch('http://192.168.56.139:8080/api/movies/'+id, {
+          let responsev = await fetch(Environment.headers+'movies/'+id, {
             method: 'GET', // or 'PUT'
-            headers: {
-              'Content-Type': 'application/json',
-              'Access-Control-Allow-Origin': '*',
-              'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-            },
+            headers: Environment.headers,
             credentials: 'same-origin'
           });
           let jsonv = await responsev.json();
@@ -83,13 +76,9 @@ export default class Showtimes extends React.Component {
   async searchShowtimesByDateAndMovie(date, movieId) {
       //Load movies
     try {
-      let response = await fetch('http://192.168.56.139:8080/api/showtime/search?movieId='+movieId+'&date='+date, {
+      let response = await fetch(Environment.backend_enpoint+'showtime/search?movieId='+movieId+'&date='+date, {
         method: 'POST', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        },
+        headers: Environment.headers,
         credentials: 'same-origin'
       });
 

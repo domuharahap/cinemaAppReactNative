@@ -1,10 +1,9 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity, ActivityIndicator, Image, FlatList } from 'react-native';
-import { Icon, Button, Input } from 'react-native-elements'
-//import Icon from 'react-native-vector-icons/FontAwesome';
-//import Ionicons from 'react-native-vector-icons/Ionicons';
-import NumericInput from 'react-native-numeric-input'
-import moment from 'moment';
+import { Icon, Button, Input } from 'react-native-elements';
+import NumericInput from 'react-native-numeric-input';
+import { Dynatrace, Platform } from '@dynatrace/react-native-plugin';
+import Environment from '../common/Environment';
 
 export default class Bookings extends React.Component {
   constructor(props) {
@@ -19,13 +18,9 @@ export default class Bookings extends React.Component {
   }
 
   getShowtimesByMovieId(id, date){
-    fetch('http://192.168.56.139:8080/api/showtime/search?movieId='+id+'&date='+date, {
+    fetch(Environment.backend_enpoint+'showtime/search?movieId='+id+'&date='+date, {
         method: 'POST', // or 'PUT'
-        headers: {
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-        },
+        headers: Environment.headers,
         credentials: 'same-origin'
       })
       .then((response) => response.json())
@@ -56,8 +51,11 @@ export default class Bookings extends React.Component {
 
 
   getPreviousDate = () => {
+    let myAction = Dynatrace.enterAction("Touch Previus day");
+    myAction.leaveAction();
     //console.log("prev date");
     //Prev Day
+
     var yesterday = moment(this.state.time).subtract(1, 'day').format('LL');
     this.setState({ time: yesterday });
     //Set loading icon true
@@ -65,9 +63,13 @@ export default class Bookings extends React.Component {
 
     //Search Showtime by Date and Movie ID
     this.getShowtimesByMovieId(this.state.movieId, moment(this.state.time).subtract(1, 'day').toISOString());
+
+
   };
 
   getNextDate = () => {
+    let myAction = Dynatrace.enterAction("Touch Next day");
+    myAction.leaveAction();
     //console.log("next date");
     //Next Day
     var tomorrow = moment(this.state.time).add(1, 'day').format('LL');

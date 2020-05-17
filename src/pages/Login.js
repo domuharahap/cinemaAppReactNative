@@ -3,6 +3,8 @@ import { SafeAreaView, Button, StyleSheet, Text, View, StatusBar, TextInput, } f
 import { signIn } from '@okta/okta-react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import Error from '../common/Error';
+import { Dynatrace, Platform } from '@dynatrace/react-native-plugin';
+
 
 export default class Login extends React.Component {
   constructor(props) {
@@ -23,6 +25,7 @@ export default class Login extends React.Component {
 
     const { username, password } = this.state;
     const { navigation } = this.props;
+    Dynatrace.identifyUser(username);
 
     signIn({ username: username, password: password })
       .then(token => {

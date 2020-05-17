@@ -1,5 +1,12 @@
 import React from 'react';
 import { StyleSheet, View, Text, TouchableOpacity } from 'react-native';
+import { Dynatrace, Platform } from '@dynatrace/react-native-plugin';
+
+const character = {
+  name: 'Luke Skywalker',
+  home: 'Tatooine',
+  species: 'human'
+}
 
 function Home(props) {
   const { navigation } = props
@@ -9,7 +16,11 @@ function Home(props) {
       <Text style={styles.text}>Cinemas Home Screen</Text>
       <TouchableOpacity
         style={styles.buttonContainer}
-        onPress={() => navigation.navigate('Detail', { item: character })}>
+        onPress={() => {
+          navigation.navigate('Detail', { item: character })
+          let myAction = Dynatrace.enterAction("Tourch Newest Movies");
+          myAction.leaveAction();
+        }}>
         <Text style={styles.buttonText}>What is New?</Text>
       </TouchableOpacity>
     </View>

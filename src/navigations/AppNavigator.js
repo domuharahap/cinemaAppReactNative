@@ -8,14 +8,14 @@ import { isAuthenticated } from '@okta/okta-react-native';
 import Home from '../pages/Home';
 import Detail from '../pages/Detail';
 import Settings from '../pages/Settings';
-import Profile from '../pages/Profile';
-
+//import Profile from '../pages/Profile';
 
 import Movies from '../pages/Movies';
 import Showtimes from '../pages/Showtimes';
 import Bookings from '../pages/Bookings';
 import BookingTickets from '../pages/BookingTickets';
-import Sigin from '../pages/Login.js';
+import Signin from '../pages/Signin.js';
+import Signup from '../pages/Signup.js';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -28,8 +28,6 @@ function getHeaderTitle(route) {
   switch (routeName) {
     case 'Home':
       return 'Home'
-    case 'Profile':
-      return 'Profile'
     case 'Movies':
       return 'Movies'
     case 'Showtimes':
@@ -38,8 +36,8 @@ function getHeaderTitle(route) {
       return 'Bookings'
     case 'BookingTickets':
       return 'BookingTickets'
-    case 'Sigin':
-      return 'Sigin'
+    case 'Signin':
+      return 'Signin'
   }
 }
 
@@ -61,9 +59,7 @@ function MainTabNavigator() {
             iconName = 'ios-videocam'
           } else if (route.name == 'Showtimes') {
             iconName = 'logo-youtube'
-          } else if (route.name == 'Profile') {
-            iconName = 'ios-person'
-          }else if (route.name == 'Sigin') {
+          } else if (route.name == 'Signin') {
             iconName = 'ios-log-in'
           }
 
@@ -73,8 +69,7 @@ function MainTabNavigator() {
       <Tab.Screen name='Home' component={Home} />
       <Tab.Screen name='Movies' component={Movies} />
       <Tab.Screen name='Showtimes' component={Showtimes} />
-      <Tab.Screen name='Profile' component={Profile} />
-      <Tab.Screen name='Sigin' component={Sigin} />
+      <Tab.Screen name='Signin' component={Signin} />
     </Tab.Navigator>
   )
 }
@@ -144,16 +139,20 @@ function MainStackNavigator() {
           component={Settings}
           options={{ title: 'Settings' }}
         />
+
         <Stack.Screen
-          name='Profile'
-          component={Profile}
-          options={{ title: 'Profile' }}
+          name="Signin"
+          component={Signin}
+          options={({ route }) => ({
+            headerTitle: getHeaderTitle(route)
+          })}
         />
         <Stack.Screen
-          name="Sigin"
-          component={Sigin}
-          options={{ title: 'Sigin', headerLeft: null }}
+          name='Signup'
+          component={Signup}
+          options={{ title: 'Signup' }}
         />
+
       </Stack.Navigator>
     </NavigationContainer>
   )

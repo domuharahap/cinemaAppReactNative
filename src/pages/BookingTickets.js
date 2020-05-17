@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, ActivityIndicator, Image,  Alert, Button } from 'react-native';
 import { Icon, Text  } from 'react-native-elements'
 import NumericInput from 'react-native-numeric-input'
-
+import Environment from '../common/Environment'
 import moment from 'moment';
 
 export default class BookingTickets extends React.Component {
@@ -37,13 +37,9 @@ export default class BookingTickets extends React.Component {
   };
 
   confirmBooking() {
-      fetch('http://192.168.56.139:8080/api/booking?noOfTickets='+this.state.noTicket, {
+      fetch(Environment+backend_enpoint+'booking?noOfTickets='+this.state.noTicket, {
           method: 'POST', // or 'PUT'
-          headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept',
-          },
+          headers: Environment.headers,
           credentials: 'same-origin',
           body: JSON.stringify({
             movieId: this.state.showtime.movieId,
